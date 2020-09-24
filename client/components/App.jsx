@@ -7,6 +7,7 @@ class App extends React.Component{
     super(props);
     this.state={
       loggedIn:false,
+      member:true,
     }
     this.checkUser= this.checkUser.bind(this);
   }
@@ -14,6 +15,7 @@ class App extends React.Component{
   checkUser(user){
     console.log(user)
   }
+
 
   render(){
     if(this.state.loggedIn===false){

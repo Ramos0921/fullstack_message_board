@@ -17,10 +17,10 @@ class LoginForm extends React.Component{
           <h1>Member Login</h1>
           <form className="signInForm">
             <p>
-              <input type="text" name="userName" placeholder="username"/>
+              <input className="loginInput" type="text" name="userName" placeholder="username"/>
             </p>
             <p>
-              <input type="password" name="password" placeholder="password"/>
+              <input className="loginInput" type="password" name="password" placeholder="password"/>
             </p>
             <p>
               <button>Sign In</button>

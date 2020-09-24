@@ -11,8 +11,12 @@ input{
   background-color: #d3d3d3;
   border:none;
 }
-
-
+button:focus{
+  outline: none;
+}
+input:focus{
+  outline: none;
+}
 .formContainer{
   width: 80%;
   margin-top: 25%;
@@ -31,11 +35,15 @@ input{
   border-radius: 10%;
 }
 .signInForm{
-  width: 90%;
+  width: 65%;
   margin-right: auto;
   margin-left: auto;
   text-align: center;
   box-shadow: 0 0 10px 0 rgb(180, 196, 227);
   border:1px solid white;
-  border-radius: 20%;
+  border-radius: 5%;
+}
+.loginInput{
+  width: 60%;
+  border-radius: 5%;
 }
