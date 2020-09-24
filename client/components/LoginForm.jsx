@@ -12,10 +12,27 @@ class LoginForm extends React.Component{
 
    render(){
      return(
-       <div>
-         <form>
-
-         </form>
+       <div className="formContainer">
+         <div className="signHolder">
+          <h1>Member Login</h1>
+          <form className="signInForm">
+            <p>
+              <input type="text" name="userName" placeholder="username"/>
+            </p>
+            <p>
+              <input type="password" name="password" placeholder="password"/>
+            </p>
+            <p>
+              <button>Sign In</button>
+            </p>
+          </form>
+          <p>
+            <button>Sign Up</button>
+          </p>
+          <p>
+            <button>Forgot password</button>
+          </p>
+         </div>
        </div>
      )
    }
