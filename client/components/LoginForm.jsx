@@ -1,41 +1,46 @@
-import React from 'react';
+import React,{useState, useEffect} from 'react';
 
-class LoginForm extends React.Component{
-  constructor(props){
-    super(props)
-    this.state={
-      email:'',
-      userName:'',
-      password:'',
-    }
-   }
+const LoginForm = ({checkUser}) => {
+  // constructor(props){
+  //   super(props)
+  //   this.state={
+  //     email:'',
+  //     userName:'',
+  //     password:'',
+  //   }
+  //  }
+  const [email,setEmail]=useState('');
+  const [username,setUsername]=useState('');
+  const [password,setPassword]=useState('');
 
-   render(){
-     return(
-       <div className="formContainer">
-         <div className="signHolder">
-          <h1>Member Login</h1>
-          <form className="signInForm">
-            <p>
-              <input className="loginInput" type="text" name="userName" placeholder="username"/>
-            </p>
-            <p>
-              <input className="loginInput" type="password" name="password" placeholder="password"/>
-            </p>
-            <p>
-              <button>Sign In</button>
-            </p>
-          </form>
+  const handleSignIn=(e)=>{
+    e.preventDefault();
+    console.log(username+' '+password);
+  }
+    return(
+      <div className="formContainer">
+        <div className="signHolder">
+        <h1>Member Login</h1>
+        <form className="signInForm">
           <p>
-            <button>Sign Up</button>
+            <input className="loginInput" type="text" name="username" placeholder="username" onChange={(e)=> setUsername(e.target.value) }/>
           </p>
           <p>
-            <button>Forgot password</button>
+            <input className="loginInput" type="password" name="password" placeholder="password" onChange={(e)=> setPassword(e.target.value)}/>
           </p>
-         </div>
-       </div>
-     )
-   }
+          <p>
+            <button onClick={(e)=> handleSignIn(e)}>Sign In</button>
+          </p>
+        </form>
+        <p>
+          <button>Sign Up</button>
+        </p>
+        <p>
+          <button>Forgot password</button>
+        </p>
+        </div>
+      </div>
+    )
 }
 
 
