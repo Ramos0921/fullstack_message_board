@@ -13,9 +13,11 @@ app.use(express.static(__dirname+'/public'));
 
 const PORT = process.env.PORT || 3003;
 
-// app.get('/',(req,res)=>{
-//   res.send('hi')
-// })
+app.post('/api/checkuser/',(req,res)=>{
+  console.log(req.body)
+  let obj = {user:true};
+  res.json(obj);
+})
 
 app.listen(PORT,()=>{
   console.log(`Connected to ${PORT}`);

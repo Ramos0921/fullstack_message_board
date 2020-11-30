@@ -1,21 +1,14 @@
 import React,{useState, useEffect} from 'react';
 
 const LoginForm = ({checkUser}) => {
-  // constructor(props){
-  //   super(props)
-  //   this.state={
-  //     email:'',
-  //     userName:'',
-  //     password:'',
-  //   }
-  //  }
+
   const [email,setEmail]=useState('');
   const [username,setUsername]=useState('');
   const [password,setPassword]=useState('');
 
   const handleSignIn=(e)=>{
     e.preventDefault();
-    console.log(username+' '+password);
+    checkUser({username,password});
   }
     return(
       <div className="formContainer">

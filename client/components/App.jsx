@@ -1,31 +1,37 @@
-import React,{useState, useEffect} from 'react';
+import React,{useState, useEffect, Component} from 'react';
 import axios from 'axios';
 import LoginForm from './LoginForm.jsx';
 
-class App extends React.Component{
-  constructor(props){
-    super(props);
-    this.state={
-      loggedIn:false,
-      member:true,
-    }
-    this.checkUser= this.checkUser.bind(this);
+function App(){
+
+  const[loggedIn, setLogIn]=useState(false);
+
+  const checkUser = ({username,password})=>{
+    fetch(`/api/checkuser/`,{
+      method:'POST',
+      body:JSON.stringify({username,password}),
+      headers:{
+        'Content-type':'application/json',
+      }
+    })
+    .then((data)=>{
+      console.log(data.json());
+    })
+
   }
 
-  checkUser(user){
-    console.log(user)
+
+  if(loggedIn){
+
+  }else{
+    return(
+            <div>
+              <LoginForm checkUser={checkUser}/>
+            </div>
+          )
   }
 
 
-  render(){
-    if(this.state.loggedIn===false){
-      return(
-        <div>
-          <LoginForm checkUser={this.checkUser}/>
-        </div>
-      )
-    }
-  }
 }
 
 export default App;
