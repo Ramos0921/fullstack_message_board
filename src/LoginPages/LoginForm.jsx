@@ -18,27 +18,17 @@ const LoginForm = ({checkUser}) => {
 
   const handleSignIn=(e)=>{
     e.preventDefault();
-    checkUser({username,password});
   }
   const newUser =(e)=>{
     e.preventDefault();
-    setSignUP(true);
-    setLogin(false);
-    setForgotPassword(false);
+    history.push('/signup')
   }
-  const needPassword=()=>{
-    setForgotPassword(true);
-    setLogin(false);
-    setSignUP(false);
-  }
-  const userCreated =()=>{
-    setForgotPassword(false);
-    setLogin(true);
-    setSignUP(false);
+  const needPassword=(e)=>{
+    e.preventDefault();
+    history.push('/forgotpassword')
   }
 
-  if(login){
-    return(
+  return(
       <div className="formContainer">
         <div className="signHolder">
         <h1>Member Login</h1>
@@ -57,25 +47,11 @@ const LoginForm = ({checkUser}) => {
           <button onClick={(e)=> newUser(e)}>Sign Up</button>
         </p>
         <p>
-          <button onClick={()=> needPassword()}>Forgot password</button>
+          <button onClick={(e)=> needPassword(e)}>Forgot password</button>
         </p>
         </div>
       </div>
     )
-  }
-
-  if(signUp){
-    history.push('/signup')
-    return(
-      <div></div>
-    )
-  }
-  if(forgotPassword){
-    history.push('/forgotpassword')
-    return(
-      <div></div>
-    )
-  }
 }
 
 
