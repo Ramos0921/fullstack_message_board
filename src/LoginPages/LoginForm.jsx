@@ -1,5 +1,6 @@
 import React,{useState, useEffect} from 'react';
 import SignUp from './SignUp.jsx';
+import axios from 'axios';
 import {
   BrowserRouter as Router,
   Switch,
@@ -8,7 +9,7 @@ import {
   useHistory,
 } from "react-router-dom";
 
-const LoginForm = ({checkUser}) => {
+const LoginForm = () => {
   const history = useHistory();
   const [username,setUsername]=useState('');
   const [password,setPassword]=useState('');
@@ -18,6 +19,11 @@ const LoginForm = ({checkUser}) => {
 
   const handleSignIn=(e)=>{
     e.preventDefault();
+    //console.log({ username, password})
+    axios.post('http://localhost:3003/checkuser',{username, password})
+    .then((data)=>{
+      console.log(data.data)
+    })
   }
   const newUser =(e)=>{
     e.preventDefault();

@@ -1,23 +1,21 @@
 import React,{useState, useEffect} from 'react';
 import axios from 'axios';
-const SignUp=({userCreated})=>{
+const SignUp=()=>{
   const[fname,setFname]=useState('');
   const[lname,setLname]=useState('');
   const[email,setEmail]=useState('');
   const[password,setPassword]=useState('');
-  const[userName,setUsername]=useState('');
+  const[username,setUsername]=useState('');
 
-  const newUser=()=>{
-    let userObj={
-      firstName:fname,
-      lastName:lname,
-      email:email,
-      password:password,
-      username:userName,
-    }
-    console.log(userObj)
+  const newUser=(e)=>{
+    e.preventDefault();
+    console.log({fname,lname,email,password,username})
+    axios.post('http://localhost:3003/signup',
+    {fname,lname,email,password,username})
+    .then((data)=>{
+      console.log(data.data)
+    })
   }
-
   return(
     <div className="formContainer">
         <div className="signHolder">
@@ -40,7 +38,7 @@ const SignUp=({userCreated})=>{
           </p>
         </form>
         <p>
-          <button onClick={()=> newUser()}>Sign Up</button>
+          <button onClick={(e)=> newUser(e)}>Sign Up</button>
         </p>
         </div>
       </div>
