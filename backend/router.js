@@ -1,7 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
-const { addUser } = require('./userDB.js')
+const { addUser, findUser } = require('./userDB.js')
+
+
 const generatePW = (pw)=>{
   const saltRound = 10;
   const result = new Promise((resolve,reject)=>{
@@ -17,14 +19,16 @@ const generatePW = (pw)=>{
   })
   return result;
 }
-router.post('/checkuser',async(req,res)=>{
-  console.log(req.body.password)
-  console.log(storage[0]);
-  const match = await bcrypt.compare(req.body.password,storage[0])
-  console.log(match);
-  res.status(200).send("user is okay");
-})
 
+router.post('/checkuser',async(req,res)=>{
+  const user = await findUser(req.body.username)
+  const match = await bcrypt.compare(req.body.password,user.password)
+  if(match){
+    res.status(200).send(true);
+  }else{
+    res.status(401).send(false);
+  }
+})
 
 router.post('/signup',async(req,res)=>{
   let userObj = req.body;
@@ -38,7 +42,6 @@ router.post('/signup',async(req,res)=>{
     res.send(500).send(false);
   }
 })
-
 
 router.post('/forgotpassword',(req,res)=>{
   console.log(req.body)

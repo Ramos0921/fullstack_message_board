@@ -1,5 +1,5 @@
 const  MongoClient  = require('mongodb');
-const dbLogin = 'mongodb+srv://eduardo:<>@cluster0.ck1u1.mongodb.net/<>?retryWrites=true&w=majority'
+const dbLogin = 'mongodb+srv://eduardo:cruzazul@cluster0.ck1u1.mongodb.net/msgapp?retryWrites=true&w=majority'
 
 const addUser = async (user)=>{
   try{
@@ -12,5 +12,18 @@ const addUser = async (user)=>{
     console.error(e);
   }
 }
+const findUser = async (user)=>{
+  try{
+    const client = await MongoClient.connect(dbLogin,{useNewUrlParser:true,useUnifiedTopology: true})
+    const db = client.db('msgapp');
+    const find = await db.collection('users').findOne({username:user})
+    return find;
+    client.close();
 
-module.exports={ addUser }
+  }catch(e){
+    console.error(e);
+    return e;
+  }
+}
+
+module.exports={ addUser, findUser }
