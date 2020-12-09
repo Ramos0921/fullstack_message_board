@@ -26,17 +26,5 @@ devServer: {
   compress: true,
   watchContentBase: true,
   port: 3001
+  }
 }
-}
-
-// rules:[
-//   {
-//     test: /\.jsx?/,
-//     include: SRC,
-//     loader: 'babel-loader',
-    // query:{
-    //   presets:['react','es2015','env','stage-2'],
-    //   plugins:['transform-object-rest-spread']
-    // },
-//   },
-// ]
