@@ -1,29 +1,20 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
-const { addUser, findUser } = require('./userDB.js')
-
-
-const generatePW = (pw)=>{
-  const saltRound = 10;
-  const result = new Promise((resolve,reject)=>{
-    bcrypt.genSalt(saltRound,(err,salt)=>{
-      bcrypt.hash(pw,salt,(err,hash)=>{
-       if(err){
-         reject(err)
-         return;
-       }
-        resolve(hash);
-     })
-   })
-  })
-  return result;
-}
+const { addUser, findUser } = require('./userDB.js');
+const { sendEmail } = require('./services/sendEmail.js')
+const { generatePW } = require('./services/generatePassword.js')
+require('dotenv').config();
+const nodemailer = require('nodemailer');
 
 router.post('/checkuser',async(req,res)=>{
   const user = await findUser(req.body.username)
+  if(!user){
+    res.status(401).send(false);
+    return;
+  }
   const match = await bcrypt.compare(req.body.password,user.password)
-  if(match){
+  if(user && match){
     res.status(200).send(true);
   }else{
     res.status(401).send(false);
@@ -32,10 +23,14 @@ router.post('/checkuser',async(req,res)=>{
 
 router.post('/signup',async(req,res)=>{
   let userObj = req.body;
+  const user = await findUser(userObj.username)
+  if(user){
+    res.status(401).send(false);
+    return;
+  }
   let password= await generatePW(userObj.password);
   userObj.password = password;
   let newUser = await addUser(userObj)
-  console.log(newUser.insertedId);
   if(newUser.insertedId){
     res.status(200).send(true);
   }else{
@@ -43,9 +38,18 @@ router.post('/signup',async(req,res)=>{
   }
 })
 
-router.post('/forgotpassword',(req,res)=>{
-  console.log(req.body)
-  res.status(200).send("email");
+router.post('/forgotpassword',async(req,res)=>{
+  console.log(req.body.email)
+  let emailResponse = await sendEmail(req.body.email);
+  console.log(emailResponse.accepted)
+  if(emailResponse.accepted.length>0){
+    res.status(200).send(true);
+  }else{
+    res.status(401).send(false)
+  }
 })
-
+router.put('/updatepassword',(req,res)=>{
+  console.log(req.body)
+  res.status(200);
+})
 module.exports = router;

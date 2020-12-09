@@ -3,6 +3,7 @@ import axios from 'axios';
 import LoginForm from './LoginPages/LoginForm.jsx';
 import SignUp from './LoginPages/SignUp.jsx';
 import ForgotPassword from './LoginPages/ForgotPassword.jsx';
+import UpdatePassword from './LoginPages/UpdatePassword.jsx';
 import {
   BrowserRouter as Router,
   Switch,
@@ -18,6 +19,7 @@ function App(){
             <Route exact path='/'><LoginForm/></Route>
             <Route path='/signup'><SignUp /></Route>
             <Route path='/forgotpassword'><ForgotPassword /></Route>
+            <Route path='/updatepassword'><UpdatePassword/></Route>
           </Switch>
       </Router>
   )

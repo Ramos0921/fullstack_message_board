@@ -8,9 +8,10 @@ import {
   useHistory,
 } from "react-router-dom";
 
-const ForgotPassword =()=>{
+const UpdatePassword =()=>{
   const history = useHistory();
   const[email,setEmail]=useState('');
+  const[password,setPassword]=useState('');
 
   const validateEmail=(email)=>{
     if(email.trim()===''){
@@ -24,19 +25,19 @@ const ForgotPassword =()=>{
     }
     return true;
   }
-  const getPassword =(e)=>{
+  const updatePassword =(e)=>{
     e.preventDefault();
     let checkEmail= validateEmail(email);
     if(!checkEmail){
       setEmail('')
       alert('Invalid email entry. Please enter a valid email address')
     }
-    axios.post('http://localhost:3003/forgotpassword',
-    {email})
+    axios.put('http://localhost:3003/updatepassword',
+    {email, password})
     .then((data)=>{
-      alert('An email containing your password has been sent. Please retrieve your password and login.')
+      alert('')
       console.log(data.data)
-      history.push('/')
+      //history.push('/')
     })
     setEmail('')
   }
@@ -48,13 +49,16 @@ const ForgotPassword =()=>{
         <p>
           <input className="loginInput" type="text" value={email} name="email" placeholder="email" onChange={(e)=> setEmail(e.target.value)}/>
         </p>
+        <p>
+          <input className="loginInput" type="password" value={password} name="email" placeholder="password" onChange={(e)=> setPassword(e.target.value)}/>
+        </p>
       </form>
       <p>
-        <button onClick={(e)=> getPassword(e)}>Get</button>
+        <button onClick={(e)=> updatePassword(e)}>Get</button>
       </p>
       </div>
     </div>
   )
 }
 
-export default ForgotPassword;
+export default UpdatePassword;

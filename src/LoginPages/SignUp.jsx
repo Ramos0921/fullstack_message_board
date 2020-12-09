@@ -90,14 +90,18 @@ const SignUp=()=>{
     }
     axios.post('http://localhost:3003/signup',
     {fname,lname,email,password,username})
-    .then((data)=>{
-      if(data.data===true){
-        alert("Thank you for signing up to Basic Message App! Now please login and enjoy!");
-        history.push('/')
-      }else{
-        alert('An error occured please try again.')
+    .then((data,err)=>{
+      if(err){
+        throw(err);
       }
+      alert("Thank you for signing up to Basic Message App! Now please login and enjoy!");
+      history.push('/')
     })
+    .catch((err)=>{
+      console.log(err)
+      alert('Username is already in use please try a different username.')
+    })
+
     setFname('');
     setLname('');
     setEmail('');
