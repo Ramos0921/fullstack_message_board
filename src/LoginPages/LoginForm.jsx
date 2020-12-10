@@ -46,9 +46,19 @@ const LoginForm = () => {
       return false;
     }
     axios.post('http://localhost:3003/checkuser',{username, password})
-    .then((data)=>{
+    .then((data,err)=>{
+      if(err){
+        throw(err)
+      }
       console.log(data.data)
+      alert('Login successful.')
     })
+    .catch((e)=>{
+      alert('An authentication error occured please try again.')
+      console.error(e);
+    })
+    setUsername('');
+    setPassword('');
   }
 
   const newUser =(e)=>{

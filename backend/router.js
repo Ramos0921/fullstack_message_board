@@ -1,11 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
-const { addUser, findUser } = require('./userDB.js');
+const { addUser, findUser, findEmail, updatePassword,addKeyWord,verifyKeyword } = require('./userDB.js');
 const { sendEmail } = require('./services/sendEmail.js')
 const { generatePW } = require('./services/generatePassword.js')
 require('dotenv').config();
 const nodemailer = require('nodemailer');
+
+
 
 router.post('/checkuser',async(req,res)=>{
   const user = await findUser(req.body.username)
@@ -17,7 +19,7 @@ router.post('/checkuser',async(req,res)=>{
   if(user && match){
     res.status(200).send(true);
   }else{
-    res.status(401).send(false);
+    res.status(500).send(false);
   }
 })
 
@@ -39,17 +41,29 @@ router.post('/signup',async(req,res)=>{
 })
 
 router.post('/forgotpassword',async(req,res)=>{
-  console.log(req.body.email)
-  let emailResponse = await sendEmail(req.body.email);
-  console.log(emailResponse.accepted)
-  if(emailResponse.accepted.length>0){
+  const userEmail = await findEmail(req.body.email);
+  if(!userEmail){
+    res.status(401).send(false)
+    return
+  }
+  let emailResponse = await sendEmail(userEmail.email,userEmail.username);
+  const addKey = await addKeyWord(req.body.email,emailResponse.random)
+  if(addKey.modifiedCount>0){
     res.status(200).send(true);
   }else{
-    res.status(401).send(false)
+    res.status(500).send(false)
   }
 })
-router.put('/updatepassword',(req,res)=>{
-  console.log(req.body)
-  res.status(200);
+router.put('/updatepassword',async(req,res)=>{
+  const updatePW = await verifyKeyword(req.body);
+  if(updatePW==="Keyword no match"){
+    res.status(401).send(false)
+    return
+  }
+  if(updatePW.modifiedCount<1 ||updatePW.modifiedCount>1){
+    res.status(500).send(false)
+  }else{
+    res.status(200).send(updatePW);
+  }
 })
 module.exports = router;

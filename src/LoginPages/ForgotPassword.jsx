@@ -33,10 +33,16 @@ const ForgotPassword =()=>{
     }
     axios.post('http://localhost:3003/forgotpassword',
     {email})
-    .then((data)=>{
-      alert('An email containing your password has been sent. Please retrieve your password and login.')
-      console.log(data.data)
+    .then((data,err)=>{
+      if(err){
+        throw(err);
+      }
+      alert('An email containing a link to reset your password has been sent. Please retrieve your reset your password and login.')
       history.push('/')
+    })
+    .catch((e)=>{
+      console.error(e)
+      alert('An error occurred please re-enter your email');
     })
     setEmail('')
   }
